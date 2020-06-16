@@ -25,6 +25,21 @@ public class Cena {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "estado_cena")
 	private EstadoDaCena estadoDaCena;
+	
+	
+	
+
+	public Cena() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Cena(Long id, String nomeDaCena, EstadoDaCena estadoDaCena) {
+		super();
+		this.id = id;
+		this.nomeDaCena = nomeDaCena;
+		this.estadoDaCena = estadoDaCena;
+	}
 
 	public Long getId() {
 		return id;
