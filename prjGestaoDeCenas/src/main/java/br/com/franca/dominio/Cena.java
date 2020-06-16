@@ -2,14 +2,12 @@ package br.com.franca.dominio;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.franca.dominio.enun.EstadoDaCena;
+import br.com.franca.dominio.enums.EstadoDaCena;
 
 @Entity
 @Table(name="TB_CENA")
@@ -22,9 +20,8 @@ public class Cena {
 	@Column(name = "nome_cena")
 	private String nomeDaCena;
 	
-	@Enumerated(EnumType.STRING)
 	@Column(name = "estado_cena")
-	private EstadoDaCena estadoDaCena;
+	private String estadoDaCena;
 	
 	public Cena() {		
 	}
@@ -32,7 +29,7 @@ public class Cena {
 	public Cena(Long id, String nomeDaCena, EstadoDaCena estadoDaCena) {		
 		this.id = id;
 		this.nomeDaCena = nomeDaCena;
-		this.estadoDaCena = estadoDaCena;
+		this.estadoDaCena = estadoDaCena.getValor();
 	}
 
 	public Long getId() {
@@ -52,11 +49,12 @@ public class Cena {
 	}
 
 	public EstadoDaCena getEstadoDaCena() {
-		return estadoDaCena;
+		return EstadoDaCena.obterEstadoDaCenaPorValor(this.estadoDaCena);
+		// return estadoDaCena;
 	}
 
 	public void setEstadoDaCena(EstadoDaCena estadoDaCena) {
-		this.estadoDaCena = estadoDaCena;
+		this.estadoDaCena = estadoDaCena.getValor();
 	}	
 	
 }
