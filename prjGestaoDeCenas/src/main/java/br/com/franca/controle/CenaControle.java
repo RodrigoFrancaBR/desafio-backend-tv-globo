@@ -1,5 +1,7 @@
 package br.com.franca.controle;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,16 +20,21 @@ public class CenaControle {
 
 	public CenaControle(CenaServico servico) {
 		this.servico = servico;
-	}
-
-	@GetMapping("/{id}")
-	public Cena buscarCenaPorId(@PathVariable("id") Long id) {
-		return servico.buscarCenaPorId(id).get();
-	}
+	}	
 
 	@PutMapping
 	public void alterarEstadoDaCena(@RequestBody CenaVO cenaVO) {
 		servico.alterarEstadoDaCena(cenaVO);
+	}
+	
+	@GetMapping
+	public List<Cena> listarCenas() {
+		return servico.listarCenas();
+	}
+	
+	@GetMapping("/{id}")
+	public Cena buscarCenaPorId(@PathVariable("id") Long id) {
+		return servico.buscarCenaPorId(id).get();
 	}
 
 }

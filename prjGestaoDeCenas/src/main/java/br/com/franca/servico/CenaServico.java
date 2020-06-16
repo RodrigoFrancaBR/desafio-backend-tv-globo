@@ -1,5 +1,6 @@
 package br.com.franca.servico;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -32,7 +33,12 @@ public class CenaServico {
 	public void alterarEstadoDaCena(CenaVO cenaVO) {
 		Optional<Cena> cenaEncontrada = repositorio.findById(cenaVO.getId());
 		cenaEncontrada.get().setEstadoDaCena(cenaVO.getEstadoDaCena());
-		repositorio.save(cenaEncontrada.get());		 
+		repositorio.save(cenaEncontrada.get());
+	}
+
+	public List<Cena> listarCenas() {
+		return repositorio.findAll();
+
 	}
 
 }
