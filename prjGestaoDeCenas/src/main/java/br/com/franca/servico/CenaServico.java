@@ -1,11 +1,12 @@
 package br.com.franca.servico;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.franca.dominio.Cena;
+import br.com.franca.dominio.enums.EstadoDaCena;
 import br.com.franca.dominio.vo.v1.CenaVO;
 import br.com.franca.repositorio.CenaRepositorio;
 
@@ -26,19 +27,37 @@ public class CenaServico {
 		return repositorio.save(cena);
 	}
 
-	public Optional<Cena> buscarCenaPorId(Long id) {
-		return repositorio.findById(id);
+	public Cena buscarCenaPorId(Long id) throws Exception {
+			return repositorio.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrada nenhuma cena para o ID informado "));
 	}
 
-	public void alterarEstadoDaCena(CenaVO cenaVO) {
-		Optional<Cena> cenaEncontrada = repositorio.findById(cenaVO.getId());
-		cenaEncontrada.get().setEstadoDaCena(cenaVO.getEstadoDaCena());
-		repositorio.save(cenaEncontrada.get());
+
+	public void alterarEstadoDaCena(CenaVO cenaVO) throws Exception {		
+		
+		if (cenaVO ==null)
+			throw new IllegalArgumentException("A nova cena não pode ser null");
+		
+		if (cenaVO.getEstadoDaCena()==null)
+			throw new IllegalArgumentException("O estado da nova cena não pode ser null");
+				
+		EstadoDaCena novoEstadoDaCena = cenaVO.getEstadoDaCena();
+		
+		Cena cenaAtual = buscarCenaPorId(cenaVO.getId());
+		
+		
+		boolean permitido = cenaAtual.getEstadoDaCena().permiteAlterarEstadoDaCenaPara(novoEstadoDaCena.getValor());
+		
+		if (!permitido)
+			throw new Exception("Alteração de estado não permitida");
+		
+		cenaAtual.setEstadoDaCena(novoEstadoDaCena);
+		
+		repositorio.save(cenaAtual);	
 	}
 
 	public List<Cena> listarCenas() {
 		return repositorio.findAll();
-
 	}
 
 }

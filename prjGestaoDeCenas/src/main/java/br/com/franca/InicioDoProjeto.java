@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import br.com.franca.dominio.Cena;
-import br.com.franca.dominio.enun.EstadoDaCena;
+import br.com.franca.dominio.enums.EstadoDaCena;
 import br.com.franca.servico.CenaServico;
 
 @SpringBootApplication

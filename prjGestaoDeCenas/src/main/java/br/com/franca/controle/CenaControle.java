@@ -23,7 +23,7 @@ public class CenaControle {
 	}	
 
 	@PutMapping
-	public void alterarEstadoDaCena(@RequestBody CenaVO cenaVO) {
+	public void alterarEstadoDaCena(@RequestBody CenaVO cenaVO) throws Exception {
 		servico.alterarEstadoDaCena(cenaVO);
 	}
 	
@@ -34,7 +34,8 @@ public class CenaControle {
 	
 	@GetMapping("/{id}")
 	public Cena buscarCenaPorId(@PathVariable("id") Long id) {
-		return servico.buscarCenaPorId(id).get();
+		return null;
+		// return servico.buscarCenaPorId(id).get();
 	}
 
 }
