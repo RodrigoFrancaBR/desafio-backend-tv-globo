@@ -26,16 +26,10 @@ public class Cena {
 	@Column(name = "estado_cena")
 	private EstadoDaCena estadoDaCena;
 	
-	
-	
-
-	public Cena() {
-		super();
-		// TODO Auto-generated constructor stub
+	public Cena() {		
 	}
 
-	public Cena(Long id, String nomeDaCena, EstadoDaCena estadoDaCena) {
-		super();
+	public Cena(Long id, String nomeDaCena, EstadoDaCena estadoDaCena) {		
 		this.id = id;
 		this.nomeDaCena = nomeDaCena;
 		this.estadoDaCena = estadoDaCena;
