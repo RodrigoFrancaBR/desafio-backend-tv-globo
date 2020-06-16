@@ -1,5 +1,7 @@
 package br.com.franca.servico;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import br.com.franca.dominio.Cena;
@@ -20,6 +22,10 @@ public class CenaServico {
 
 	public Cena gravarCena(Cena cena) {
 		return repositorio.save(cena);
+	}
+
+	public Optional<Cena> buscarCenaPorId(Long id) {
+		return repositorio.findById(id);
 	}
 
 }
