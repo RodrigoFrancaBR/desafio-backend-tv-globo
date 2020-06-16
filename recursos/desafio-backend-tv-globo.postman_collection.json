@@ -1,0 +1,57 @@
+{
+	"id": "2c88df27-c875-bacc-0153-f2ea1cddbdcc",
+	"name": "desafio-backend-tv-globo",
+	"description": "",
+	"order": [],
+	"folders": [
+		{
+			"id": "0c13d76f-63da-8442-7a7c-54844a4a5d3e",
+			"name": "cenas",
+			"description": "",
+			"order": [
+				"d7e1415b-acca-4008-a8df-22aed17ab9b0"
+			],
+			"folders_order": [],
+			"owner": "4142608",
+			"collectionId": "2c88df27-c875-bacc-0153-f2ea1cddbdcc"
+		}
+	],
+	"folders_order": [
+		"0c13d76f-63da-8442-7a7c-54844a4a5d3e"
+	],
+	"timestamp": 1592325805307,
+	"owner": "4142608",
+	"public": false,
+	"requests": [
+		{
+			"id": "d7e1415b-acca-4008-a8df-22aed17ab9b0",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080/api/cenas/v1",
+			"folder": "0c13d76f-63da-8442-7a7c-54844a4a5d3e",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592326091019,
+			"name": "alterarEstadoDaCena",
+			"description": "",
+			"collectionId": "2c88df27-c875-bacc-0153-f2ea1cddbdcc",
+			"responses": [],
+			"rawModeData": "{\n    \"id\": 1,\n    \"estadoDaCena\": \"PREPARADA\",\n    \"horarioDaAlteracao\": \"13:00\"\n}"
+		}
+	]
+}

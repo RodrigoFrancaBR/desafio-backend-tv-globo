@@ -25,6 +25,15 @@ public class Cena {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "estado_cena")
 	private EstadoDaCena estadoDaCena;
+	
+	public Cena() {		
+	}
+
+	public Cena(Long id, String nomeDaCena, EstadoDaCena estadoDaCena) {		
+		this.id = id;
+		this.nomeDaCena = nomeDaCena;
+		this.estadoDaCena = estadoDaCena;
+	}
 
 	public Long getId() {
 		return id;
