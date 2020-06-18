@@ -1,5 +1,7 @@
 package br.com.franca.dominio.vo.v1;
 
+import java.sql.Timestamp;
+
 import br.com.franca.dominio.enums.EstadoDaCena;
 
 public class CenaVO {
@@ -7,8 +9,8 @@ public class CenaVO {
 	private Long id;
 	private String nome;
 	private EstadoDaCena estadoDaCena;
-	private String horarioDaAlteracao;
-
+	private Timestamp dataDeAlteracao;	
+	
 	public CenaVO() {
 	}
 
@@ -43,12 +45,14 @@ public class CenaVO {
 		this.estadoDaCena = estadoDaCena;
 	}
 
-	public String getHorarioDaAlteracao() {
-		return horarioDaAlteracao;
+	public Timestamp getDataDeAlteracao() {
+		return dataDeAlteracao;
 	}
 
-	public void setHorarioDaAlteracao(String horarioDaAlteracao) {
-		this.horarioDaAlteracao = horarioDaAlteracao;
+	public void setDataDeAlteracao(Timestamp dataDeAlteracao) {
+		this.dataDeAlteracao = dataDeAlteracao;
 	}
+
+	
 
 }

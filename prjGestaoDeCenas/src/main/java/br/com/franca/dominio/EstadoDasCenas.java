@@ -1,6 +1,7 @@
 package br.com.franca.dominio;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,30 +10,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.franca.dominio.enums.EstadoDaCena;
-
 @Entity
-@Table(name = "TB_CENA")
-public class Cena implements Serializable {
-	private static final long serialVersionUID = -5793532401439768688L;
+@Table(name = "TB_CENA_ESTADO")
+public class EstadoDasCenas implements Serializable {
+
+	private static final long serialVersionUID = -2696475215300863472L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "nome_cena")
-	private String nomeDaCena;
+	@Column(name = "dt_alteracao")
+	private Date dataDeAlteracao;
 
-	@Column(name = "estado_cena")
-	private String estadoDaCena;
+	@Column(name = "novo_estado")
+	private String novoEstadoDaCena;
 
-	public Cena() {
+	public EstadoDasCenas(Long id, Date dataDeAlteracao, String novoEstadoDaCena) {
+		super();
+		this.id = id;
+		this.dataDeAlteracao = dataDeAlteracao;
+		this.novoEstadoDaCena = novoEstadoDaCena;
 	}
 
-	public Cena(Long id, String nomeDaCena, EstadoDaCena estadoDaCena) {
-		this.id = id;
-		this.nomeDaCena = nomeDaCena;
-		this.estadoDaCena = estadoDaCena.getValor();
+	public EstadoDasCenas() {
 	}
 
 	public Long getId() {
@@ -43,21 +44,20 @@ public class Cena implements Serializable {
 		this.id = id;
 	}
 
-	public String getNomeDaCena() {
-		return nomeDaCena;
+	public Date getdataDeAlteracao() {
+		return dataDeAlteracao;
 	}
 
-	public void setNomeDaCena(String nomeDaCena) {
-		this.nomeDaCena = nomeDaCena;
+	public void setdataDeAlteracao(Date dataDeAlteracao) {
+		this.dataDeAlteracao = dataDeAlteracao;
 	}
 
-	public EstadoDaCena getEstadoDaCena() {
-		return EstadoDaCena.obterEstadoDaCenaPorValor(this.estadoDaCena);
-		// return estadoDaCena;
+	public String getNovoEstadoDaCena() {
+		return novoEstadoDaCena;
 	}
 
-	public void setEstadoDaCena(EstadoDaCena estadoDaCena) {
-		this.estadoDaCena = estadoDaCena.getValor();
+	public void setNovoEstadoDaCena(String novoEstadoDaCena) {
+		this.novoEstadoDaCena = novoEstadoDaCena;
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class Cena implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cena other = (Cena) obj;
+		EstadoDasCenas other = (EstadoDasCenas) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -84,4 +84,5 @@ public class Cena implements Serializable {
 			return false;
 		return true;
 	}
+
 }
