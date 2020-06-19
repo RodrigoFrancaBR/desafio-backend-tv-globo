@@ -1,7 +1,7 @@
 package br.com.franca.dominio;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,12 +21,12 @@ public class EstadoDasCenas implements Serializable {
 	private Long id;
 
 	@Column(name = "dt_alteracao")
-	private Date dataDeAlteracao;
+	private LocalDateTime dataDeAlteracao;
 
 	@Column(name = "novo_estado")
 	private String novoEstadoDaCena;
 
-	public EstadoDasCenas(Long id, Date dataDeAlteracao, String novoEstadoDaCena) {
+	public EstadoDasCenas(Long id, LocalDateTime dataDeAlteracao, String novoEstadoDaCena) {
 		super();
 		this.id = id;
 		this.dataDeAlteracao = dataDeAlteracao;
@@ -44,11 +44,11 @@ public class EstadoDasCenas implements Serializable {
 		this.id = id;
 	}
 
-	public Date getdataDeAlteracao() {
+	public LocalDateTime getDataDeAlteracao() {
 		return dataDeAlteracao;
 	}
 
-	public void setdataDeAlteracao(Date dataDeAlteracao) {
+	public void setDataDeAlteracao(LocalDateTime dataDeAlteracao) {
 		this.dataDeAlteracao = dataDeAlteracao;
 	}
 

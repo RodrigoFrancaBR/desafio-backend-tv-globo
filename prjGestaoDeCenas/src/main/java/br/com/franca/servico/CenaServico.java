@@ -1,5 +1,6 @@
 package br.com.franca.servico;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -28,32 +29,36 @@ public class CenaServico {
 	}
 
 	public Cena buscarCenaPorId(Long id) throws Exception {
-			return repositorio.findById(id)
-					.orElseThrow(() -> new ResourceNotFoundException("N„o foi encontrada nenhuma cena para o ID informado "));
+		return repositorio.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException("N√£o foi encontrada nenhuma cena para o ID informado "));
 	}
 
+	public void alterarEstadoDaCena(CenaVO cenaVO) throws Exception {
 
-	public void alterarEstadoDaCena(CenaVO cenaVO) throws Exception {		
+		if (cenaVO == null)
+			throw new IllegalArgumentException("A nova cena n√£o pode ser null");
+
+		if (cenaVO.getEstadoDaCena() == null)
+			throw new IllegalArgumentException("O estado da nova cena n√£o pode ser null");
+
+		if (cenaVO.getDataDeAlteracao() == null)
+			throw new IllegalArgumentException("A dataDeAlteracao n√£o pode ser null");
 		
-		if (cenaVO ==null)
-			throw new IllegalArgumentException("A nova cena n„o pode ser null");
-		
-		if (cenaVO.getEstadoDaCena()==null)
-			throw new IllegalArgumentException("O estado da nova cena n„o pode ser null");
-				
+		if (cenaVO.getDataDeAlteracao().isAfter(LocalDateTime.now()))
+			throw new IllegalArgumentException("A dataDeAlteracao n√£o pode ser maior que a data atual");
+
 		EstadoDaCena novoEstadoDaCena = cenaVO.getEstadoDaCena();
-		
+
 		Cena cenaAtual = buscarCenaPorId(cenaVO.getId());
-		
-		
+
 		boolean permitido = cenaAtual.getEstadoDaCena().permiteAlterarEstadoDaCenaPara(novoEstadoDaCena.getValor());
-		
+
 		if (!permitido)
-			throw new Exception("AlteraÁ„o de estado n„o permitida");
-		
+			throw new Exception("Altera√ß√£o de estado n√£o permitida");
+
 		cenaAtual.setEstadoDaCena(novoEstadoDaCena);
-		
-		repositorio.save(cenaAtual);	
+
+		repositorio.save(cenaAtual);
 	}
 
 	public List<Cena> listarCenas() {

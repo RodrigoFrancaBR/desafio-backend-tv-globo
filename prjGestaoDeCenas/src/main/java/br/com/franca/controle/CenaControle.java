@@ -20,22 +20,22 @@ public class CenaControle {
 
 	public CenaControle(CenaServico servico) {
 		this.servico = servico;
-	}	
+	}
 
 	@PutMapping
 	public void alterarEstadoDaCena(@RequestBody CenaVO cenaVO) throws Exception {
 		servico.alterarEstadoDaCena(cenaVO);
 	}
-	
+
 	@GetMapping
 	public List<Cena> listarCenas() {
 		return servico.listarCenas();
 	}
-	
+
 	@GetMapping("/{id}")
-	public Cena buscarCenaPorId(@PathVariable("id") Long id) {
-		return null;
-		// return servico.buscarCenaPorId(id).get();
+	public CenaVO buscarCenaPorId(@PathVariable("id") Long id) throws Exception {
+		Cena cena = servico.buscarCenaPorId(id);
+		return new CenaVO(cena.getId(), cena.getNomeDaCena(), cena.getEstadoDaCena());
 	}
 
 }

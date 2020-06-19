@@ -1,6 +1,6 @@
 package br.com.franca.dominio.vo.v1;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import br.com.franca.dominio.enums.EstadoDaCena;
 
@@ -9,7 +9,7 @@ public class CenaVO {
 	private Long id;
 	private String nome;
 	private EstadoDaCena estadoDaCena;
-	private Timestamp dataDeAlteracao;	
+	private LocalDateTime dataDeAlteracao;
 	
 	public CenaVO() {
 	}
@@ -45,14 +45,11 @@ public class CenaVO {
 		this.estadoDaCena = estadoDaCena;
 	}
 
-	public Timestamp getDataDeAlteracao() {
+	public LocalDateTime getDataDeAlteracao() {
 		return dataDeAlteracao;
 	}
 
-	public void setDataDeAlteracao(Timestamp dataDeAlteracao) {
+	public void setDataDeAlteracao(LocalDateTime dataDeAlteracao) {
 		this.dataDeAlteracao = dataDeAlteracao;
 	}
-
-	
-
 }

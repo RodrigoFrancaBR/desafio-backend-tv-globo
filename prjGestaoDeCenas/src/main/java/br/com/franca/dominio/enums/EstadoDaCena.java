@@ -7,35 +7,30 @@ public enum EstadoDaCena {
 
 	PENDENTE("Pendente") {
 		@Override
-		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {
-			return this.getValor().equals(EstadoDaCena.PENDENTE.getValor())
-					&& novoEstado.equals(EstadoDaCena.PREPARADA.getValor())
-					|| this.getValor().equals(EstadoDaCena.PENDENTE.getValor())
-							&& novoEstado.equals(EstadoDaCena.PENDURADA.getValor()) ? true : false;
+		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {									
+			return novoEstado.equals(EstadoDaCena.PREPARADA.getValor())|| novoEstado.equals(EstadoDaCena.PENDURADA.getValor()) ? true : false;
 		}
 	},
 
 	PREPARADA("Preparada") {
 		@Override
 		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {
-			return this.getValor().equals(EstadoDaCena.PREPARADA.getValor())
-					&& novoEstado.equals(EstadoDaCena.GRAVADA.getValor())
-					|| this.getValor().equals(EstadoDaCena.PREPARADA.getValor())
-							&& novoEstado.equals(EstadoDaCena.PENDURADA.getValor()) ? true : false;
+			return novoEstado.equals(EstadoDaCena.GRAVADA.getValor())|| novoEstado.equals(EstadoDaCena.PENDURADA.getValor()) 
+					|| novoEstado.equals(EstadoDaCena.PENDENTE.getValor())? true : false;		
 		}
 	},
 
 	PENDURADA("Pendurada") {
 		@Override
-		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {
-			return false;
+		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {			
+			return novoEstado.equals(EstadoDaCena.PREPARADA.getValor())? true : false;
 		}
 	},
 
 	GRAVADA("Gravada") {
 		@Override
-		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {
-			return false;
+		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {;
+			return novoEstado.equals(EstadoDaCena.PREPARADA.getValor())? true : false;
 		}
 	};	
 
