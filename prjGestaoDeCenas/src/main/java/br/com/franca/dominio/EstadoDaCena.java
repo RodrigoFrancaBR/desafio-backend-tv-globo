@@ -8,32 +8,39 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.com.franca.dominio.enums.Estado;
+
 @Entity
-@Table(name = "TB_CENA_ESTADO")
-public class EstadoDasCenas implements Serializable {
+@Table(name = "tb_estado_cena")
+public class EstadoDaCena implements Serializable {
 
 	private static final long serialVersionUID = -2696475215300863472L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name = "estado_cena")
+	private String estado;
 
 	@Column(name = "dt_alteracao")
 	private LocalDateTime dataDeAlteracao;
 
-	@Column(name = "novo_estado")
-	private String novoEstadoDaCena;
+	@ManyToOne
+	@JoinColumn(name = "cena_id")
+	private Cena cena;
 
-	public EstadoDasCenas(Long id, LocalDateTime dataDeAlteracao, String novoEstadoDaCena) {
-		super();
-		this.id = id;
+	public EstadoDaCena( Estado estado, LocalDateTime dataDeAlteracao, Cena cena) {
+		this.estado = estado.getValor();
 		this.dataDeAlteracao = dataDeAlteracao;
-		this.novoEstadoDaCena = novoEstadoDaCena;
+		this.cena = cena;		
 	}
 
-	public EstadoDasCenas() {
+	public EstadoDaCena() {
 	}
 
 	public Long getId() {
@@ -52,12 +59,20 @@ public class EstadoDasCenas implements Serializable {
 		this.dataDeAlteracao = dataDeAlteracao;
 	}
 
-	public String getNovoEstadoDaCena() {
-		return novoEstadoDaCena;
+	public Estado getEstadoDaCena() {
+		return Estado.obterEstadoDaCenaPorValor(estado);
 	}
 
-	public void setNovoEstadoDaCena(String novoEstadoDaCena) {
-		this.novoEstadoDaCena = novoEstadoDaCena;
+	public void setEstadoDaCena(Estado estado) {
+		this.estado = estado.getValor();
+	}
+
+	public Cena getCena() {
+		return cena;
+	}
+
+	public void setCena(Cena cena) {
+		this.cena = cena;
 	}
 
 	@Override
@@ -76,7 +91,7 @@ public class EstadoDasCenas implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EstadoDasCenas other = (EstadoDasCenas) obj;
+		EstadoDaCena other = (EstadoDaCena) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -85,4 +100,9 @@ public class EstadoDasCenas implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "EstadoDaCena [id=" + id + ", dataDeAlteracao=" + dataDeAlteracao + ", estadoDaCena=" + estado
+				+ ", cena=" + cena + "]";
+	}
 }

@@ -2,67 +2,97 @@ package br.com.franca.servico;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.franca.dominio.Cena;
-import br.com.franca.dominio.enums.EstadoDaCena;
+import br.com.franca.dominio.EstadoDaCena;
+import br.com.franca.dominio.enums.Estado;
 import br.com.franca.dominio.vo.v1.CenaVO;
 import br.com.franca.repositorio.CenaRepositorio;
+import br.com.franca.repositorio.EstadoDaCenaRepositorio;
 
 @Service
 public class CenaServico {
 
-	private CenaRepositorio repositorio;
+	private CenaRepositorio cenaRepositorio;
+	private EstadoDaCenaRepositorio estadoDaCenaRepositorio;
 
-	public CenaServico(CenaRepositorio repositorio) {
-		this.repositorio = repositorio;
-	}
-
-	public void apagarTodasAsCenas() {
-		repositorio.deleteAll();
+	public CenaServico(CenaRepositorio cenaRepositorio, EstadoDaCenaRepositorio estadoDaCenaRepositorio) {
+		this.cenaRepositorio = cenaRepositorio;
+		this.estadoDaCenaRepositorio = estadoDaCenaRepositorio;
 	}
 
 	public Cena gravarCena(Cena cena) {
-		return repositorio.save(cena);
+		return cenaRepositorio.save(cena);
 	}
 
-	public Cena buscarCenaPorId(Long id) throws Exception {
-		return repositorio.findById(id).orElseThrow(
+	public EstadoDaCena gravarEstadoDaCena(EstadoDaCena estadoDaCena) {
+		return estadoDaCenaRepositorio.save(estadoDaCena);
+	}
+
+	public CenaVO buscarCenaPorId(Long id) {
+		Cena cenaEncontrada = cenaRepositorio.findById(id).orElseThrow(
 				() -> new ResourceNotFoundException("Não foi encontrada nenhuma cena para o ID informado "));
+		return converterParaCenaVO(cenaEncontrada);
 	}
 
-	public void alterarEstadoDaCena(CenaVO cenaVO) throws Exception {
+	public List<CenaVO> listarCenas() {
+		List<Cena> listaDeCenas = cenaRepositorio.findAll();
+		return converteParaListaDeCenaVO(listaDeCenas);
+	}
+
+	public void alterarEstadoDaCena(CenaVO cenaVO) {
 
 		if (cenaVO == null)
 			throw new IllegalArgumentException("A nova cena não pode ser null");
 
-		if (cenaVO.getEstadoDaCena() == null)
+		if (cenaVO.getEstado() == null)
 			throw new IllegalArgumentException("O estado da nova cena não pode ser null");
 
 		if (cenaVO.getDataDeAlteracao() == null)
 			throw new IllegalArgumentException("A dataDeAlteracao não pode ser null");
-		
+				
+
 		if (cenaVO.getDataDeAlteracao().isAfter(LocalDateTime.now()))
 			throw new IllegalArgumentException("A dataDeAlteracao não pode ser maior que a data atual");
 
-		EstadoDaCena novoEstadoDaCena = cenaVO.getEstadoDaCena();
+		CenaVO cenaAtualVO = buscarCenaPorId(cenaVO.getId());
 
-		Cena cenaAtual = buscarCenaPorId(cenaVO.getId());
+		if (!permiteAlterarEstadoDaCena(cenaAtualVO.getEstado(), cenaVO.getEstado()))
+			throw new IllegalArgumentException("Alteração de estado não permitida");
 
-		boolean permitido = cenaAtual.getEstadoDaCena().permiteAlterarEstadoDaCenaPara(novoEstadoDaCena.getValor());
+		cenaAtualVO.setEstado(cenaVO.getEstado());
 
-		if (!permitido)
-			throw new Exception("Alteração de estado não permitida");
+		cenaAtualVO.setDataDeAlteracao(cenaVO.getDataDeAlteracao());
 
-		cenaAtual.setEstadoDaCena(novoEstadoDaCena);
+		estadoDaCenaRepositorio.save(converterParaEstadoDaCena(cenaAtualVO));
 
-		repositorio.save(cenaAtual);
+		cenaRepositorio.save(converterParaCena(cenaAtualVO));
+
 	}
 
-	public List<Cena> listarCenas() {
-		return repositorio.findAll();
+	private EstadoDaCena converterParaEstadoDaCena(CenaVO cenaVO) {
+		return new EstadoDaCena(cenaVO.getEstado(), cenaVO.getDataDeAlteracao(), new Cena(cenaVO.getId()));
+	}
+
+	private Cena converterParaCena(CenaVO cenaAtual) {
+		return new Cena(cenaAtual.getId(), cenaAtual.getNome(), cenaAtual.getEstado());
+	}
+
+	private List<CenaVO> converteParaListaDeCenaVO(List<Cena> listaDeCenas) {
+		return listaDeCenas.parallelStream().map(e -> new CenaVO(e.getId(), e.getNomeDaCena(), e.getEstado()))
+				.collect(Collectors.toList());
+	}
+
+	private CenaVO converterParaCenaVO(Cena cena) {
+		return new CenaVO(cena.getId(), cena.getNomeDaCena(), cena.getEstado());
+	}
+
+	private boolean permiteAlterarEstadoDaCena(Estado estadoAtual, Estado novoEstado) {
+		return estadoAtual.permiteAlterarEstadoDaCenaPara(novoEstado.getValor());
 	}
 
 }

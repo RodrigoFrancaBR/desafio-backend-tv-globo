@@ -9,10 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.franca.dominio.enums.EstadoDaCena;
+import br.com.franca.dominio.enums.Estado;
 
 @Entity
-@Table(name = "TB_CENA")
+@Table(name = "tb_cena")
 public class Cena implements Serializable {
 	private static final long serialVersionUID = -5793532401439768688L;
 
@@ -22,17 +22,21 @@ public class Cena implements Serializable {
 
 	@Column(name = "nome_cena")
 	private String nomeDaCena;
-
+	
 	@Column(name = "estado_cena")
-	private String estadoDaCena;
-
+	private String estado;
+	
 	public Cena() {
 	}
 
-	public Cena(Long id, String nomeDaCena, EstadoDaCena estadoDaCena) {
+	public Cena(Long id, String nomeDaCena, Estado estado) {
 		this.id = id;
 		this.nomeDaCena = nomeDaCena;
-		this.estadoDaCena = estadoDaCena.getValor();
+		this.estado = estado.getValor();
+	}
+	
+	public Cena(Long id) {
+		this.id = id;		
 	}
 
 	public Long getId() {
@@ -49,15 +53,14 @@ public class Cena implements Serializable {
 
 	public void setNomeDaCena(String nomeDaCena) {
 		this.nomeDaCena = nomeDaCena;
+	}	
+
+	public Estado getEstado() {
+		return Estado.obterEstadoDaCenaPorValor(estado);
 	}
 
-	public EstadoDaCena getEstadoDaCena() {
-		return EstadoDaCena.obterEstadoDaCenaPorValor(this.estadoDaCena);
-		// return estadoDaCena;
-	}
-
-	public void setEstadoDaCena(EstadoDaCena estadoDaCena) {
-		this.estadoDaCena = estadoDaCena.getValor();
+	public void setEstado(Estado estado) {
+		this.estado = estado.getValor();
 	}
 
 	@Override
@@ -83,5 +86,10 @@ public class Cena implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Cena [id=" + id + ", nomeDaCena=" + nomeDaCena + "]";
 	}
 }

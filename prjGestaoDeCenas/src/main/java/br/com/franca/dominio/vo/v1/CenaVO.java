@@ -2,23 +2,35 @@ package br.com.franca.dominio.vo.v1;
 
 import java.time.LocalDateTime;
 
-import br.com.franca.dominio.enums.EstadoDaCena;
+import br.com.franca.dominio.enums.Estado;
 
 public class CenaVO {
 
 	private Long id;
 	private String nome;
-	private EstadoDaCena estadoDaCena;
+	private Estado estado;
 	private LocalDateTime dataDeAlteracao;
-	
+
 	public CenaVO() {
 	}
 
-	public CenaVO(Long id, String nome, EstadoDaCena estadoDaCena) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.estadoDaCena = estadoDaCena;
+	public CenaVO(Long cenaId, String nomeDaCena, Estado estado, LocalDateTime dataDeAlteracao) {
+		this.id = cenaId;
+		this.nome = nomeDaCena;
+		this.estado = estado;
+		this.dataDeAlteracao = dataDeAlteracao;
+	}
+
+	public CenaVO(Long cenaId, String nomeDaCena, Estado estado) {
+		this.id = cenaId;
+		this.nome = nomeDaCena;
+		this.estado = estado;
+	}
+	
+	public CenaVO(Long cenaId, Estado estado, LocalDateTime dataDeAlteracao) {
+		this.id = cenaId;		
+		this.estado = estado;
+		this.dataDeAlteracao = dataDeAlteracao;
 	}
 
 	public Long getId() {
@@ -37,12 +49,12 @@ public class CenaVO {
 		this.nome = nome;
 	}
 
-	public EstadoDaCena getEstadoDaCena() {
-		return estadoDaCena;
+	public Estado getEstado() {
+		return estado;
 	}
 
-	public void setEstadoDaCena(EstadoDaCena estadoDaCena) {
-		this.estadoDaCena = estadoDaCena;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	public LocalDateTime getDataDeAlteracao() {
@@ -52,4 +64,5 @@ public class CenaVO {
 	public void setDataDeAlteracao(LocalDateTime dataDeAlteracao) {
 		this.dataDeAlteracao = dataDeAlteracao;
 	}
+
 }

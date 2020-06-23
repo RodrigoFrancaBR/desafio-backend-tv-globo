@@ -13,28 +13,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/api/cenas/v1/0"
-					},
-					"response": []
-				},
-				{
-					"name": "alterarEstadoDaCena_1",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\": 1,\n  \"estadoDaCena\": \"PREPARADA\",\n    \"dataDeAlteracao\": \"2020-02-25 09:49:24\"\n}",
-							"options": {
-								"raw": {}
-							}
-						},
-						"url": "http://localhost:8080/api/cenas/v1"
+						"url": "http://localhost:8080/api/v1/cenas/1"
 					},
 					"response": []
 				},
@@ -50,75 +29,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 2,\n    \"estadoDaCena\": \"PENDENTE\",\n    \"dataDeAlteracao\": \"2019-09-08T18:02:48Z\"\n}",
+							"raw": "{\n    \"id\": 1,\n    \"estado\": \"GRAVADA\",\n    \"dataDeAlteracao\": \"2020-06-22T18:02:48Z\"\n}",
 							"options": {
 								"raw": {}
 							}
 						},
-						"url": "http://localhost:8080/api/cenas/v1"
-					},
-					"response": []
-				},
-				{
-					"name": "alterarEstadoDaCena_3",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 3,\n    \"estadoDaCena\": \"PREPARADA\",\n    \"dataDeAlteracao\": \"1581833150\"\n}",
-							"options": {
-								"raw": {}
-							}
-						},
-						"url": "http://localhost:8080/api/cenas/v1"
-					},
-					"response": []
-				},
-				{
-					"name": "alterarEstadoDaCena_4",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 4,\n    \"estadoDaCena\": \"PENDURADA\",\n    \"dataDeAlteracao\": \"1572342587000\"\n}",
-							"options": {
-								"raw": {}
-							}
-						},
-						"url": "http://localhost:8080/api/cenas/v1"
-					},
-					"response": []
-				},
-				{
-					"name": "alterarEstadoDaCena_5",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 5,\n    \"estadoDaCena\": \"GRAVADA\",\n    \"dataDeAlteracao\": \"1572342587000\"\n}",
-							"options": {
-								"raw": {}
-							}
-						},
-						"url": "http://localhost:8080/api/cenas/v1"
+						"url": "http://localhost:8080/api/v1/cenas"
 					},
 					"response": []
 				},
@@ -127,7 +43,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/api/cenas/v1"
+						"url": "http://localhost:8080/api/v1/cenas/"
 					},
 					"response": []
 				}

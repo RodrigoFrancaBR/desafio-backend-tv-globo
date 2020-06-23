@@ -3,8 +3,8 @@ package br.com.franca.repositorio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.franca.dominio.Cena;
+import br.com.franca.dominio.EstadoDaCena;
 
 @Repository
-public interface CenaRepositorio extends JpaRepository<Cena, Long> {
+public interface EstadoDaCenaRepositorio extends JpaRepository<EstadoDaCena, Long> {
 }

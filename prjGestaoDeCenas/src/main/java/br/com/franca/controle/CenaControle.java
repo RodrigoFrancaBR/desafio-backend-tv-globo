@@ -9,33 +9,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.franca.dominio.Cena;
 import br.com.franca.dominio.vo.v1.CenaVO;
 import br.com.franca.servico.CenaServico;
 
 @RestController
-@RequestMapping("/api/cenas/v1")
+@RequestMapping("/api/v1/cenas")
 public class CenaControle {
+
 	private CenaServico servico;
 
-	public CenaControle(CenaServico servico) {
-		this.servico = servico;
+	public CenaControle(CenaServico cenaServico) {
+		this.servico = cenaServico;
 	}
 
 	@PutMapping
 	public void alterarEstadoDaCena(@RequestBody CenaVO cenaVO) throws Exception {
 		servico.alterarEstadoDaCena(cenaVO);
 	}
-
+	
+	// Listar cenas com seus estados atuais;
 	@GetMapping
-	public List<Cena> listarCenas() {
+	public List<CenaVO> listarCenas() {
 		return servico.listarCenas();
 	}
 
+	// Obter dado de uma cena específica.
 	@GetMapping("/{id}")
 	public CenaVO buscarCenaPorId(@PathVariable("id") Long id) throws Exception {
-		Cena cena = servico.buscarCenaPorId(id);
-		return new CenaVO(cena.getId(), cena.getNomeDaCena(), cena.getEstadoDaCena());
+		return servico.buscarCenaPorId(id);
 	}
 
 }
