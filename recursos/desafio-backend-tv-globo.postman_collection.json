@@ -18,7 +18,7 @@
 					"response": []
 				},
 				{
-					"name": "alterarEstadoDaCena_2",
+					"name": "alterarEstadoDaCena",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -29,7 +29,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"estado\": \"GRAVADA\",\n    \"dataDeAlteracao\": \"2020-06-22T18:02:48Z\"\n}",
+							"raw": "{\n    \"id\": 1,\n    \"nomeDoEstado\": \"PREPARADA\",\n    \"dataInformada\": \"2020-06-24T19:03:00Z\"\n}",
 							"options": {
 								"raw": {}
 							}
@@ -44,6 +44,27 @@
 						"method": "GET",
 						"header": [],
 						"url": "http://localhost:8080/api/v1/cenas/"
+					},
+					"response": []
+				},
+				{
+					"name": "desfazerAlteracaoDeEstado",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"nomeDoEstado\": \"PENDENTE\"    \n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": "http://localhost:8080/api/v1/cenas"
 					},
 					"response": []
 				}

@@ -3,6 +3,7 @@ package br.com.franca.controle;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +24,13 @@ public class CenaControle {
 	}
 
 	@PutMapping
-	public void alterarEstadoDaCena(@RequestBody CenaVO cenaVO) throws Exception {
-		servico.alterarEstadoDaCena(cenaVO);
+	public CenaVO alterarEstadoDaCena(@RequestBody CenaVO cenaVO) throws Exception {
+		return servico.alterarEstadoDaCena(cenaVO);
+	}
+	
+	@PatchMapping
+	public CenaVO desfazerAlteracaoDeEstado(@RequestBody CenaVO cenaVO) throws Exception{
+		return servico.desfazerAlteracaoDeEstado(cenaVO);
 	}
 	
 	// Listar cenas com seus estados atuais;

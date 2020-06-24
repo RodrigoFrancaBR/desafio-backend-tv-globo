@@ -23,21 +23,25 @@ public class EstadoDaCena implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name = "estado_cena")
-	private String estado;
 
-	@Column(name = "dt_alteracao")
-	private LocalDateTime dataDeAlteracao;
+	@Column(name = "nm_estado")
+	private String nomeDoEstado;
+
+	@Column(name = "dt_informada")
+	private LocalDateTime dataInformada;
+
+	@Column(name = "dt_operacao")
+	private LocalDateTime dataDaOperacao;
 
 	@ManyToOne
-	@JoinColumn(name = "cena_id")
+	@JoinColumn(name = "id_cena")
 	private Cena cena;
 
-	public EstadoDaCena( Estado estado, LocalDateTime dataDeAlteracao, Cena cena) {
-		this.estado = estado.getValor();
-		this.dataDeAlteracao = dataDeAlteracao;
-		this.cena = cena;		
+	public EstadoDaCena(Estado nomeDoEstado, LocalDateTime dataInformada, LocalDateTime dataDaOperacao, Cena cena) {
+		this.nomeDoEstado = nomeDoEstado.getValor();
+		this.dataInformada = dataInformada;
+		this.dataDaOperacao = dataDaOperacao;
+		this.cena = cena;
 	}
 
 	public EstadoDaCena() {
@@ -51,20 +55,28 @@ public class EstadoDaCena implements Serializable {
 		this.id = id;
 	}
 
-	public LocalDateTime getDataDeAlteracao() {
-		return dataDeAlteracao;
+	public LocalDateTime getDataInformada() {
+		return dataInformada;
 	}
 
-	public void setDataDeAlteracao(LocalDateTime dataDeAlteracao) {
-		this.dataDeAlteracao = dataDeAlteracao;
+	public void setDataInformada(LocalDateTime dataInformada) {
+		this.dataInformada = dataInformada;
 	}
 
-	public Estado getEstadoDaCena() {
-		return Estado.obterEstadoDaCenaPorValor(estado);
+	public LocalDateTime getDataDaOperacao() {
+		return dataDaOperacao;
 	}
 
-	public void setEstadoDaCena(Estado estado) {
-		this.estado = estado.getValor();
+	public void setDataDaOperacao(LocalDateTime dataDaOperacao) {
+		this.dataDaOperacao = dataDaOperacao;
+	}
+
+	public Estado getNomeDoEstado() {
+		return Estado.obterEstadoDaCenaPorValor(nomeDoEstado);
+	}
+
+	public void setNomeDoEstado(Estado nomeDoEstado) {
+		this.nomeDoEstado = nomeDoEstado.getValor();
 	}
 
 	public Cena getCena() {
@@ -102,7 +114,8 @@ public class EstadoDaCena implements Serializable {
 
 	@Override
 	public String toString() {
-		return "EstadoDaCena [id=" + id + ", dataDeAlteracao=" + dataDeAlteracao + ", estadoDaCena=" + estado
-				+ ", cena=" + cena + "]";
+		return "EstadoDaCena [id=" + id + ", nomeDoEstado=" + nomeDoEstado + ", dataInformada=" + dataInformada
+				+ ", dataDaOperacao=" + dataDaOperacao + ", cena=" + cena + "]";
 	}
+
 }

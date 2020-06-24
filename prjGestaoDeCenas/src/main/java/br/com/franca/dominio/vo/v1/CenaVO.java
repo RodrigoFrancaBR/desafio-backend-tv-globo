@@ -7,30 +7,30 @@ import br.com.franca.dominio.enums.Estado;
 public class CenaVO {
 
 	private Long id;
-	private String nome;
-	private Estado estado;
-	private LocalDateTime dataDeAlteracao;
+	private String nomeDaCena;
+	private Estado nomeDoEstado;
+	private LocalDateTime dataInformada;
 
 	public CenaVO() {
 	}
 
-	public CenaVO(Long cenaId, String nomeDaCena, Estado estado, LocalDateTime dataDeAlteracao) {
-		this.id = cenaId;
-		this.nome = nomeDaCena;
-		this.estado = estado;
-		this.dataDeAlteracao = dataDeAlteracao;
+	public CenaVO(Long id, String nomeDaCena, Estado nomeDoEstado, LocalDateTime dataInformada) {
+		this.id = id;
+		this.nomeDaCena = nomeDaCena;
+		this.nomeDoEstado = nomeDoEstado;
+		this.dataInformada = dataInformada;
 	}
 
-	public CenaVO(Long cenaId, String nomeDaCena, Estado estado) {
-		this.id = cenaId;
-		this.nome = nomeDaCena;
-		this.estado = estado;
+	public CenaVO(Long id, String nomeDaCena, Estado nomeDoEstado) {
+		this.id = id;
+		this.nomeDaCena = nomeDaCena;
+		this.nomeDoEstado = nomeDoEstado;
 	}
-	
-	public CenaVO(Long cenaId, Estado estado, LocalDateTime dataDeAlteracao) {
-		this.id = cenaId;		
-		this.estado = estado;
-		this.dataDeAlteracao = dataDeAlteracao;
+
+	public CenaVO(Long id, Estado nomeDoEstado, LocalDateTime dataInformada) {
+		this.id = id;
+		this.nomeDoEstado = nomeDoEstado;
+		this.dataInformada = dataInformada;
 	}
 
 	public Long getId() {
@@ -41,28 +41,28 @@ public class CenaVO {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getNomeDaCena() {
+		return nomeDaCena;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNomeDaCena(String nomeDaCena) {
+		this.nomeDaCena = nomeDaCena;
 	}
 
-	public Estado getEstado() {
-		return estado;
+	public Estado getNomeDoEstado() {
+		return nomeDoEstado;
 	}
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
+	public void setNomeDoEstado(Estado nomeDoEstado) {
+		this.nomeDoEstado = nomeDoEstado;
 	}
 
-	public LocalDateTime getDataDeAlteracao() {
-		return dataDeAlteracao;
+	public LocalDateTime getDataInformada() {
+		return dataInformada;
 	}
 
-	public void setDataDeAlteracao(LocalDateTime dataDeAlteracao) {
-		this.dataDeAlteracao = dataDeAlteracao;
+	public void setDataInformada(LocalDateTime dataInformada) {
+		this.dataInformada = dataInformada;
 	}
 
 }

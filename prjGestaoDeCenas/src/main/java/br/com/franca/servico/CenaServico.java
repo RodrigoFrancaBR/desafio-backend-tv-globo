@@ -2,6 +2,7 @@ package br.com.franca.servico;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -34,8 +35,7 @@ public class CenaServico {
 	}
 
 	public CenaVO buscarCenaPorId(Long id) {
-		Cena cenaEncontrada = cenaRepositorio.findById(id).orElseThrow(
-				() -> new ResourceNotFoundException("Não foi encontrada nenhuma cena para o ID informado "));
+		Cena cenaEncontrada = findById(id);
 		return converterParaCenaVO(cenaEncontrada);
 	}
 
@@ -44,55 +44,97 @@ public class CenaServico {
 		return converteParaListaDeCenaVO(listaDeCenas);
 	}
 
-	public void alterarEstadoDaCena(CenaVO cenaVO) {
+	public CenaVO alterarEstadoDaCena(CenaVO cenaVO) {
 
 		if (cenaVO == null)
-			throw new IllegalArgumentException("A nova cena não pode ser null");
+			throw new IllegalArgumentException("Uma cena precisa ser informada");
 
-		if (cenaVO.getEstado() == null)
-			throw new IllegalArgumentException("O estado da nova cena não pode ser null");
+		if (cenaVO.getNomeDoEstado() == null)
+			throw new IllegalArgumentException("Um estado precisa ser informado");
 
-		if (cenaVO.getDataDeAlteracao() == null)
-			throw new IllegalArgumentException("A dataDeAlteracao não pode ser null");
-				
+		if (cenaVO.getDataInformada() == null)
+			throw new IllegalArgumentException("Uma data de alteração de estado precisa ser informado");
 
-		if (cenaVO.getDataDeAlteracao().isAfter(LocalDateTime.now()))
-			throw new IllegalArgumentException("A dataDeAlteracao não pode ser maior que a data atual");
+		if (cenaVO.getDataInformada().isAfter(LocalDateTime.now()))
+			throw new IllegalArgumentException(
+					"A data de Alteracao de estado precisa ser menor que a data/hora atual ");
 
-		CenaVO cenaAtualVO = buscarCenaPorId(cenaVO.getId());
+		Cena cenaAtual = findById(cenaVO.getId());
 
-		if (!permiteAlterarEstadoDaCena(cenaAtualVO.getEstado(), cenaVO.getEstado()))
+		if (!permiteAlterarEstadoDaCenaPara(cenaAtual.getNomeDoEstado(), cenaVO.getNomeDoEstado()))
 			throw new IllegalArgumentException("Alteração de estado não permitida");
+		
+		cenaAtual.setDataInformada(cenaVO.getDataInformada());
+		
+		cenaAtual.setNomeDoEstado(cenaVO.getNomeDoEstado());
+		
+		estadoDaCenaRepositorio.save(converterParaEstadoDaCena(cenaAtual));
 
-		cenaAtualVO.setEstado(cenaVO.getEstado());
-
-		cenaAtualVO.setDataDeAlteracao(cenaVO.getDataDeAlteracao());
-
-		estadoDaCenaRepositorio.save(converterParaEstadoDaCena(cenaAtualVO));
-
-		cenaRepositorio.save(converterParaCena(cenaAtualVO));
+		Cena cenaSalva = cenaRepositorio.save(cenaAtual);
+		return converterParaCenaVO(cenaSalva);
 
 	}
 
-	private EstadoDaCena converterParaEstadoDaCena(CenaVO cenaVO) {
-		return new EstadoDaCena(cenaVO.getEstado(), cenaVO.getDataDeAlteracao(), new Cena(cenaVO.getId()));
+	public CenaVO desfazerAlteracaoDeEstado(CenaVO cenaVO) throws Exception {
+
+		if (cenaVO == null)
+			throw new IllegalArgumentException("Uma cena precisa ser informada");
+
+		if (cenaVO.getNomeDoEstado() == null)
+			throw new IllegalArgumentException("Um estado precisa ser informado");
+
+		Cena cenaAtual = findById(cenaVO.getId());
+		
+		List<EstadoDaCena> listaDeEstados = estadoDaCenaRepositorio.findByCena(cenaAtual);
+		
+		Optional<EstadoDaCena> estadoMaisRecente = listaDeEstados.parallelStream().reduce((e1, e2)->e1.getDataDaOperacao().isAfter(e2.getDataDaOperacao())?e1:e2);
+
+		if (!permiteDesfazerAlteracaoDeEstado(cenaAtual, cenaVO))
+			throw new IllegalArgumentException("Desfazer alteração de estado não permitida");
+
+		if (ultimaAlteracaoDeEstadoMaiorQueCincoMinutos(estadoMaisRecente.get().getDataDaOperacao()))
+			throw new Exception("Desfazer alteração de estado não permitida");
+
+		cenaAtual.setNomeDoEstado(cenaVO.getNomeDoEstado());		
+
+		estadoDaCenaRepositorio.save(converterParaEstadoDaCena(cenaAtual));
+
+		Cena cenaAtualizada = cenaRepositorio.save(cenaAtual);
+		return converterParaCenaVO(cenaAtualizada);
+		
+
 	}
 
-	private Cena converterParaCena(CenaVO cenaAtual) {
-		return new Cena(cenaAtual.getId(), cenaAtual.getNome(), cenaAtual.getEstado());
+	private Cena findById(Long id) {
+		return cenaRepositorio.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException("Não foi encontrada nenhuma cena para o ID informado "));
+	}
+
+	private boolean permiteAlterarEstadoDaCenaPara(Estado estadoAtual, Estado novoEstado) {
+		return estadoAtual.permiteAlterarEstadoDaCenaPara(novoEstado.getValor());
+	}
+
+	private boolean permiteDesfazerAlteracaoDeEstado(Cena cenaAtual, CenaVO cenaVO) {
+		return cenaAtual.getNomeDoEstado().permiteDesfazerAlteracaoDeEstado(cenaVO.getNomeDoEstado().getValor());
+	}
+
+	private boolean ultimaAlteracaoDeEstadoMaiorQueCincoMinutos(LocalDateTime dataDaUltimaOperacao) {
+		LocalDateTime dataLimite = dataDaUltimaOperacao.plusMinutes(5);
+		return LocalDateTime.now().isAfter(dataLimite) ? true : false;
+	}
+
+	private EstadoDaCena converterParaEstadoDaCena(Cena cena) {
+		return new EstadoDaCena(cena.getNomeDoEstado(), cena.getDataInformada(), LocalDateTime.now(), cena);
 	}
 
 	private List<CenaVO> converteParaListaDeCenaVO(List<Cena> listaDeCenas) {
-		return listaDeCenas.parallelStream().map(e -> new CenaVO(e.getId(), e.getNomeDaCena(), e.getEstado()))
+		return listaDeCenas.parallelStream().map(
+				cena -> new CenaVO(cena.getId(), cena.getNomeDaCena(), cena.getNomeDoEstado(), cena.getDataInformada()))
 				.collect(Collectors.toList());
 	}
 
 	private CenaVO converterParaCenaVO(Cena cena) {
-		return new CenaVO(cena.getId(), cena.getNomeDaCena(), cena.getEstado());
-	}
-
-	private boolean permiteAlterarEstadoDaCena(Estado estadoAtual, Estado novoEstado) {
-		return estadoAtual.permiteAlterarEstadoDaCenaPara(novoEstado.getValor());
+		return new CenaVO(cena.getId(), cena.getNomeDaCena(), cena.getNomeDoEstado(), cena.getDataInformada());
 	}
 
 }

@@ -33,7 +33,8 @@ public class InicioDoProjeto {
 						Cena cena = new Cena();
 						cena.setId(i);
 						cena.setNomeDaCena("Cena " + i);
-						cena.setEstado(Estado.PENDENTE);
+						cena.setNomeDoEstado(Estado.PENDENTE);
+						cena.setDataInformada(LocalDateTime.now());
 						return cena;
 					})
 
@@ -43,9 +44,12 @@ public class InicioDoProjeto {
 						EstadoDaCena estadoDaCena = new EstadoDaCena();
 						estadoDaCena.setCena(cena);
 						estadoDaCena
-								.setDataDeAlteracao(LocalDateTime.now().plusDays(cena.getId()).plusHours(cena.getId()));
-
-						estadoDaCena.setEstadoDaCena(Estado.PENDENTE);
+								.setDataInformada(cena.getDataInformada());
+						
+						estadoDaCena
+						.setDataDaOperacao(LocalDateTime.now());
+						
+						estadoDaCena.setNomeDoEstado(Estado.PENDENTE);
 						return estadoDaCena;
 					})
 

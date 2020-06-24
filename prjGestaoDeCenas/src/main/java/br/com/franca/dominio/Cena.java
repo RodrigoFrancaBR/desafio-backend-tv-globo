@@ -1,6 +1,7 @@
 package br.com.franca.dominio;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,23 +21,27 @@ public class Cena implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "nome_cena")
+	@Column(name = "nm_cena")
 	private String nomeDaCena;
-	
-	@Column(name = "estado_cena")
-	private String estado;
-	
+
+	@Column(name = "nm_estado")
+	private String nomeDoEstado;
+
+	@Column(name = "dt_informada")
+	private LocalDateTime dataInformada;
+
 	public Cena() {
 	}
 
-	public Cena(Long id, String nomeDaCena, Estado estado) {
+	public Cena(Long id) {
+		this.id = id;
+	}
+
+	public Cena(Long id, String nomeDaCena, Estado nomeDoEstado, LocalDateTime dataInformada) {
 		this.id = id;
 		this.nomeDaCena = nomeDaCena;
-		this.estado = estado.getValor();
-	}
-	
-	public Cena(Long id) {
-		this.id = id;		
+		this.nomeDoEstado = nomeDoEstado.getValor();
+		this.dataInformada = dataInformada;
 	}
 
 	public Long getId() {
@@ -53,14 +58,22 @@ public class Cena implements Serializable {
 
 	public void setNomeDaCena(String nomeDaCena) {
 		this.nomeDaCena = nomeDaCena;
-	}	
-
-	public Estado getEstado() {
-		return Estado.obterEstadoDaCenaPorValor(estado);
 	}
 
-	public void setEstado(Estado estado) {
-		this.estado = estado.getValor();
+	public Estado getNomeDoEstado() {
+		return Estado.obterEstadoDaCenaPorValor(nomeDoEstado);
+	}
+
+	public void setNomeDoEstado(Estado nomeDoEstado) {
+		this.nomeDoEstado = nomeDoEstado.getValor();
+	}
+
+	public void setDataInformada(LocalDateTime dataInformada) {
+		this.dataInformada = dataInformada;
+	}
+
+	public LocalDateTime getDataInformada() {
+		return dataInformada;
 	}
 
 	@Override
@@ -90,6 +103,7 @@ public class Cena implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Cena [id=" + id + ", nomeDaCena=" + nomeDaCena + "]";
+		return "Cena [id=" + id + ", nomeDaCena=" + nomeDaCena + ", nomeDoEstado=" + nomeDoEstado + ", dataInformada="
+				+ dataInformada + "]";
 	}
 }

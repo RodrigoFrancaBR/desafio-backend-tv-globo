@@ -8,22 +8,36 @@ public enum Estado {
 	PENDENTE("Pendente") {
 		@Override
 		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {
-			return novoEstado.equals(Estado.PREPARADA.getValor()) || novoEstado.equals(Estado.PENDURADA.getValor())
-					? true : false;
+			return novoEstado.equals(Estado.PREPARADA.getValor()) || novoEstado.equals(Estado.PENDURADA.getValor()) ? true : false;
 		}
+
+		@Override
+		public boolean permiteDesfazerAlteracaoDeEstado(String novoEstado) {
+			return false;
+		}
+
 	},
 
 	PREPARADA("Preparada") {
 		@Override
 		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {
-			return novoEstado.equals(Estado.GRAVADA.getValor()) || novoEstado.equals(Estado.PENDURADA.getValor())
-					|| novoEstado.equals(Estado.PENDENTE.getValor()) ? true : false;
+			return novoEstado.equals(Estado.GRAVADA.getValor()) || novoEstado.equals(Estado.PENDURADA.getValor()) ? true: false;
+		}
+
+		@Override
+		public boolean permiteDesfazerAlteracaoDeEstado(String novoEstado) {
+			return novoEstado.equals(Estado.PENDENTE.getValor()) ? true : false;
 		}
 	},
 
 	PENDURADA("Pendurada") {
 		@Override
 		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {
+			return false;
+		}
+
+		@Override
+		public boolean permiteDesfazerAlteracaoDeEstado(String novoEstado) {
 			return novoEstado.equals(Estado.PREPARADA.getValor()) ? true : false;
 		}
 	},
@@ -31,7 +45,11 @@ public enum Estado {
 	GRAVADA("Gravada") {
 		@Override
 		public boolean permiteAlterarEstadoDaCenaPara(String novoEstado) {
-			;
+			return false;
+		}
+
+		@Override
+		public boolean permiteDesfazerAlteracaoDeEstado(String novoEstado) {
 			return novoEstado.equals(Estado.PREPARADA.getValor()) ? true : false;
 		}
 	};
@@ -52,5 +70,7 @@ public enum Estado {
 	}
 
 	public abstract boolean permiteAlterarEstadoDaCenaPara(String novoEstado);
+
+	public abstract boolean permiteDesfazerAlteracaoDeEstado(String novoEstado);
 
 }
