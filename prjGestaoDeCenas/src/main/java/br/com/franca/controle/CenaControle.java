@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.franca.dominio.vo.v1.CenaVO;
+import br.com.franca.dominio.vo.v1.EstadoDaCenaVO;
 import br.com.franca.servico.CenaServico;
 
 @RestController
@@ -22,12 +23,14 @@ public class CenaControle {
 	public CenaControle(CenaServico cenaServico) {
 		this.servico = cenaServico;
 	}
-
+	
+	// Controlar estados de cenas;
 	@PutMapping
 	public CenaVO alterarEstadoDaCena(@RequestBody CenaVO cenaVO) throws Exception {
 		return servico.alterarEstadoDaCena(cenaVO);
 	}
-	
+
+	// Controlar estados de cenas;
 	@PatchMapping
 	public CenaVO desfazerAlteracaoDeEstado(@RequestBody CenaVO cenaVO) throws Exception{
 		return servico.desfazerAlteracaoDeEstado(cenaVO);
@@ -44,5 +47,9 @@ public class CenaControle {
 	public CenaVO buscarCenaPorId(@PathVariable("id") Long id) throws Exception {
 		return servico.buscarCenaPorId(id);
 	}
-
+	
+	@GetMapping("/{id}/estados")
+	List<EstadoDaCenaVO>obterEstadosDeUmaCena(@PathVariable("id")Long id){
+		return servico.obterEstadosDeUmaCena(id);		
+	}
 }

@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.franca.dominio.enums.Estado;
+import br.com.franca.dominio.enums.TipoDaOperacao;
 
 @Entity
 @Table(name = "tb_estado_cena")
@@ -32,12 +33,18 @@ public class EstadoDaCena implements Serializable {
 
 	@Column(name = "dt_operacao")
 	private LocalDateTime dataDaOperacao;
+	
+	@Column(name = "nm_operacao")
+	private String nomeDaOperacao;
 
 	@ManyToOne
 	@JoinColumn(name = "id_cena")
 	private Cena cena;
 
-	public EstadoDaCena(Estado nomeDoEstado, LocalDateTime dataInformada, LocalDateTime dataDaOperacao, Cena cena) {
+	public EstadoDaCena(Estado nomeDoEstado,
+			LocalDateTime dataInformada,
+			LocalDateTime dataDaOperacao,
+			Cena cena) {
 		this.nomeDoEstado = nomeDoEstado.getValor();
 		this.dataInformada = dataInformada;
 		this.dataDaOperacao = dataDaOperacao;
@@ -54,6 +61,14 @@ public class EstadoDaCena implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public Estado getNomeDoEstado() {
+		return Estado.obterEstadoDaCenaPorValor(nomeDoEstado);
+	}
+
+	public void setNomeDoEstado(Estado nomeDoEstado) {
+		this.nomeDoEstado = nomeDoEstado.getValor();
+	}
 
 	public LocalDateTime getDataInformada() {
 		return dataInformada;
@@ -69,14 +84,14 @@ public class EstadoDaCena implements Serializable {
 
 	public void setDataDaOperacao(LocalDateTime dataDaOperacao) {
 		this.dataDaOperacao = dataDaOperacao;
+	}	
+	
+	public TipoDaOperacao getNomeDaOperacao() {
+		return TipoDaOperacao.obterTipoDaOperacaoPorValor(nomeDaOperacao);
 	}
 
-	public Estado getNomeDoEstado() {
-		return Estado.obterEstadoDaCenaPorValor(nomeDoEstado);
-	}
-
-	public void setNomeDoEstado(Estado nomeDoEstado) {
-		this.nomeDoEstado = nomeDoEstado.getValor();
+	public void setNomeDaOperacao(TipoDaOperacao nomeDaOperacao) {
+		this.nomeDaOperacao = nomeDaOperacao.getValor();
 	}
 
 	public Cena getCena() {

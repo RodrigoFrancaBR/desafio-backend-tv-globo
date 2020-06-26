@@ -1,11 +1,13 @@
 package br.com.franca.dominio.vo.v1;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import br.com.franca.dominio.enums.Estado;
 
-public class CenaVO {
+public class CenaVO implements Serializable{
 
+	private static final long serialVersionUID = 2141716828445711844L;
 	private Long id;
 	private String nomeDaCena;
 	private Estado nomeDoEstado;

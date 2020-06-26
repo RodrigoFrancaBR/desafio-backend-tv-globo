@@ -11,5 +11,5 @@ import br.com.franca.dominio.EstadoDaCena;
 @Repository
 public interface EstadoDaCenaRepositorio extends JpaRepository<EstadoDaCena, Long> {
 
-	List<EstadoDaCena> findByCena(Cena cenaAtual);
+	List<EstadoDaCena> findByCena(Cena cena);	
 }

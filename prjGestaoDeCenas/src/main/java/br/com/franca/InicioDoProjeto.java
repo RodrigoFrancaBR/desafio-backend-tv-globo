@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import br.com.franca.dominio.Cena;
-import br.com.franca.dominio.EstadoDaCena;
 import br.com.franca.dominio.enums.Estado;
 import br.com.franca.servico.CenaServico;
 import br.com.franca.servico.EstadoDaCenaServico;
@@ -40,20 +39,20 @@ public class InicioDoProjeto {
 
 					.map(cena -> cenaServico.gravarCena(cena))
 
-					.map(cena -> {
+					/*.map(cena -> {
 						EstadoDaCena estadoDaCena = new EstadoDaCena();
-						estadoDaCena.setCena(cena);
-						estadoDaCena
-								.setDataInformada(cena.getDataInformada());
-						
-						estadoDaCena
-						.setDataDaOperacao(LocalDateTime.now());
-						
 						estadoDaCena.setNomeDoEstado(Estado.PENDENTE);
+						estadoDaCena.setDataInformada(cena.getDataInformada());
+						estadoDaCena.setDataDaOperacao(LocalDateTime.now());
+						estadoDaCena.setNomeDaOperacao(null);
+						estadoDaCena.setCena(cena);
+										
+						
+						
 						return estadoDaCena;
-					})
+					})*/
 
-					.map(estadoDaCena -> estadoDaCenaServico.gravarEstadoDaCena(estadoDaCena))
+					// .map(estadoDaCena -> estadoDaCenaServico.gravarEstadoDaCena(estadoDaCena))
 
 					.forEach(System.out::println);
 		};
